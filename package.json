@@ -1,0 +1,29 @@
+{
+    "dependencies": {
+        "memory-cache": "~0.2.0"
+    },
+    "description": "XPO LTL Shipment Tracking API client for retrieving shipment status, reference numbers, and tracking events using PRO numbers.",
+    "devDependencies": {
+        "@eslint/js": "*",
+        "globals": "*"
+    },
+    "keywords": [
+        "logistics",
+        "tracking",
+        "xpo"
+    ],
+    "license": "Apache-2.0",
+    "name": "@stores.com/xpo",
+    "publishConfig": {
+        "access": "public"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/stores-com/xpo.git"
+    },
+    "scripts": {
+        "coveralls": "node --test --test-concurrency=true --experimental-test-coverage --test-reporter=spec --test-reporter-destination=stdout --test-reporter=lcov --test-reporter-destination=lcov.info && coveralls < lcov.info",
+        "test": "node --test --test-concurrency=true --test-reporter=spec"
+    },
+    "version": "0.1.0"
+}
