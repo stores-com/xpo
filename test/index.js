@@ -20,7 +20,7 @@ test('getAccessToken', { concurrency: true }, async (t) => {
 
     t.test('should return an error for non 200 status code', async () => {
         const xpo = new XPO({
-            url: 'https://httpstat.us/500#'
+            url: 'https://httpbin.org/status/500#'
         });
 
         await assert.rejects(xpo.getAccessToken(), (err) => {
