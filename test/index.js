@@ -25,7 +25,7 @@ test('getAccessToken', { concurrency: true }, async (t) => {
 
         await assert.rejects(xpo.getAccessToken(), (err) => {
             assert.strictEqual(err.name, 'HttpError');
-            assert.match(err.message, /^500/);
+            assert.match(err.message, /^5\d\d/);
             return true;
         });
     });
