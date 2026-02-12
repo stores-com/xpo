@@ -58,44 +58,6 @@ test('getAccessToken', { concurrency: true }, async (t) => {
 
         assert.deepStrictEqual(accessToken2, accessToken1);
     });
-
-    t.test('should use refresh token when access token is expired', async () => {
-        const xpo = new XPO({
-            api_key: process.env.XPO_API_KEY,
-            password: process.env.XPO_PASSWORD,
-            username: process.env.XPO_USERNAME
-        });
-
-        const accessToken1 = await xpo.getAccessToken();
-
-        cache.del(`xpo_access_${process.env.XPO_USERNAME}`);
-
-        const accessToken2 = await xpo.getAccessToken();
-
-        assert(accessToken2);
-        assert(accessToken2.access_token);
-        assert.notStrictEqual(accessToken2.access_token, accessToken1.access_token);
-    });
-});
-
-test('refreshAccessToken', { concurrency: true }, async (t) => {
-    t.afterEach(() => {
-        cache.clear();
-    });
-
-    t.test('should fall back to password grant when refresh token is invalid', async () => {
-        const xpo = new XPO({
-            api_key: process.env.XPO_API_KEY,
-            password: process.env.XPO_PASSWORD,
-            username: process.env.XPO_USERNAME
-        });
-
-        const accessToken = await xpo.refreshAccessToken('invalid_refresh_token');
-
-        assert(accessToken);
-        assert(accessToken.access_token);
-        assert(accessToken.refresh_token);
-    });
 });
 
 test('getShipmentStatus', { concurrency: true }, async (t) => {

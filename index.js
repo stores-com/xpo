@@ -10,29 +10,20 @@ function XPO(args) {
 
     /**
      * XPO LTL APIs use the OAuth 2.0 protocol for authentication and authorization using the password grant type.
-     * The access token is valid for 12 hours. The refresh token is valid for 24 hours.
-     * Once the access token expires, the refresh token can be used to generate a new pair of tokens.
      * @see https://www.xpo.com/help-center/integration-with-customer-systems/api/
      */
     this.getAccessToken = async (_options = {}) => {
-        const accessTokenKey = `xpo_access_${options.username}`;
-        const accessToken = cache.get(accessTokenKey);
+        const key = `xpo_${options.username}`;
+        const accessToken = cache.get(key);
 
         if (accessToken) {
             return accessToken;
         }
 
-        const refreshTokenKey = `xpo_refresh_${options.username}`;
-        const refreshToken = cache.get(refreshTokenKey);
-
-        if (refreshToken) {
-            return await this.refreshAccessToken(refreshToken);
-        }
-
         const res = await fetch(`${options.url}/token`, {
             body: `grant_type=password&username=${encodeURIComponent(options.username)}&password=${encodeURIComponent(options.password)}`,
             headers: {
-                'Authorization': `Basic ${options.api_key}`,
+                Authorization: `Basic ${options.api_key}`,
                 'Content-Type': 'application/x-www-form-urlencoded'
             },
             method: 'POST',
@@ -45,41 +36,7 @@ function XPO(args) {
 
         const json = await res.json();
 
-        cache.put(accessTokenKey, json, Number(json.expires_in) * 1000 / 2);
-        cache.put(refreshTokenKey, json.refresh_token, Number(json.expires_in) * 1000);
-
-        return json;
-    };
-
-    /**
-     * Uses a refresh token to obtain a new access token without re-sending user credentials.
-     * @see https://www.xpo.com/help-center/integration-with-customer-systems/api/
-     */
-    this.refreshAccessToken = async (refreshToken, _options = {}) => {
-        const res = await fetch(`${options.url}/token`, {
-            body: `grant_type=refresh_token&refresh_token=${encodeURIComponent(refreshToken)}`,
-            headers: {
-                'Authorization': `Basic ${options.api_key}`,
-                'Content-Type': 'application/x-www-form-urlencoded'
-            },
-            method: 'POST',
-            signal: AbortSignal.timeout(_options.timeout || 30000)
-        });
-
-        if (!res.ok) {
-            cache.del(`xpo_access_${options.username}`);
-            cache.del(`xpo_refresh_${options.username}`);
-
-            return await this.getAccessToken();
-        }
-
-        const json = await res.json();
-
-        const accessTokenKey = `xpo_access_${options.username}`;
-        const refreshTokenKey = `xpo_refresh_${options.username}`;
-
-        cache.put(accessTokenKey, json, Number(json.expires_in) * 1000 / 2);
-        cache.put(refreshTokenKey, json.refresh_token, Number(json.expires_in) * 1000);
+        cache.put(key, json, Number(json.expires_in) * 1000 / 2);
 
         return json;
     };
@@ -99,7 +56,7 @@ function XPO(args) {
 
         const res = await fetch(`${options.url}/tracking/1.0/shipments/shipment-status-details?${query}`, {
             headers: {
-                'Authorization': `Bearer ${accessToken.access_token}`
+                Authorization: `Bearer ${accessToken.access_token}`
             },
             signal: AbortSignal.timeout(_options.timeout || 30000)
         });
