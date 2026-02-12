@@ -1,5 +1,6 @@
 {
     "dependencies": {
+        "@stores.com/http-error": "~1.0.0",
         "memory-cache": "~0.2.0"
     },
     "description": "XPO LTL Shipment Tracking API client for retrieving shipment status, reference numbers, and tracking events using PRO numbers.",
