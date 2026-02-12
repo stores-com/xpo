@@ -1,15 +1,9 @@
 const assert = require('node:assert');
 const test = require('node:test');
 
-const cache = require('memory-cache');
-
 const XPO = require('../index');
 
 test('getAccessToken', { concurrency: true }, async (t) => {
-    t.afterEach(() => {
-        cache.clear();
-    });
-
     t.test('should return an error for invalid url', async () => {
         const xpo = new XPO({
             url: 'invalid'
@@ -61,10 +55,6 @@ test('getAccessToken', { concurrency: true }, async (t) => {
 });
 
 test('getShipmentStatus', { concurrency: true }, async (t) => {
-    t.afterEach(() => {
-        cache.clear();
-    });
-
     t.test('should return shipment status for a valid PRO number', async () => {
         const xpo = new XPO({
             api_key: process.env.XPO_API_KEY,
