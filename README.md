@@ -2,6 +2,8 @@
 
 [![Test](https://github.com/stores-com/xpo/actions/workflows/test.yml/badge.svg)](https://github.com/stores-com/xpo/actions/workflows/test.yml)
 [![Coverage Status](https://coveralls.io/repos/github/stores-com/xpo/badge.svg)](https://coveralls.io/github/stores-com/xpo)
+[![npm version](https://img.shields.io/npm/v/@stores.com/xpo)](https://www.npmjs.com/package/@stores.com/xpo)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
 XPO LTL Shipment Tracking API client for retrieving shipment status, reference numbers, and tracking events using PRO numbers.
 
