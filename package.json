@@ -5,8 +5,8 @@
     },
     "description": "XPO LTL Shipment Tracking API client for retrieving shipment status, reference numbers, and tracking events using PRO numbers.",
     "devDependencies": {
-        "@eslint/js": "*",
-        "globals": "*"
+        "@eslint/js": "~10.0.1",
+        "globals": "~17.3.0"
     },
     "keywords": [
         "logistics",
